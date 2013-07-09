@@ -1,3 +1,14 @@
+let g:dotvim_settings = {}
+let g:dotvim_settings.version = 1
+let g:dotvim_settings.default_indent = 4
+let g:dotvim_settings.plugin_groups_exclude = []
+let g:dotvim_settings.colorscheme = 'badwolf'
+
+filetype plugin indent on
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex"
+let g:pymode_lint_write = 0
+let g:pymode_lint_signs = 0
 " vim: fdm=marker ts=2 sts=2 sw=2
 
 " detect OS {{{
@@ -17,7 +28,7 @@
     finish
   endif
 
-  " initialize default settings
+ " initialize default settings
   let s:settings = {}
   let s:settings.default_indent = 2
   let s:settings.max_column = 120
@@ -49,7 +60,7 @@
     call add(s:settings.plugin_groups, 'windows')
   endif
 
-  " exclude all language-specific plugins by default
+ " exclude all language-specific plugins by default
   if !exists('g:dotvim_settings.plugin_groups_exclude')
     let g:dotvim_settings.plugin_groups_exclude = ['web', 'javascript', 'ruby', 'python', 'go']
   endif
@@ -124,10 +135,10 @@
 " base configuration {{{
   set timeoutlen=300                                  "mapping timeout
   set ttimeoutlen=50                                  "keycode timeout
-
-  set mouse=a                                         "enable mouse
-  set mousehide                                       "hide when characters are typed
-  set history=1000                                    "number of command lines to remember
+"
+"  set mouse=a                                         "enable mouse
+"  set mousehide                                       "hide when characters are typed
+"  set history=1000                                    "number of command lines to remember
   set ttyfast                                         "assume fast terminal connection
   set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
   set encoding=utf-8                                  "set encoding for text
@@ -136,24 +147,25 @@
   else
     set clipboard=unnamed                             "sync with OS clipboard
   endif
+
   set hidden                                          "allow buffer switching without saving
   set autoread                                        "auto reload if file saved externally
-  set fileformats+=mac                                "add mac to auto-detection of file format line endings
+"  set fileformats+=mac                                "add mac to auto-detection of file format line endings
   set nrformats-=octal                                "always assume decimal numbers
   set showcmd
   set tags=tags;/
   set showfulltag
-  set keywordprg=":help"                              "remap K to vim help
+"  set keywordprg=":help"                              "remap K to vim help
   set modeline
   set modelines=5
-
-  if s:is_windows && !s:is_cygwin
-    " ensure correct shell in gvim
-    set shell=c:\windows\system32\cmd.exe
-  endif
-
-  " whitespace
-  set backspace=indent,eol,start                      "allow backspacing everything in insert mode
+"
+"  if s:is_windows && !s:is_cygwin
+"    " ensure correct shell in gvim
+"    set shell=c:\windows\system32\cmd.exe
+"  endif
+"
+"  " whitespace
+"  set backspace=indent,eol,start                      "allow backspacing everything in insert mode
   set autoindent                                      "automatically indent to match adjacent lines
   set smartindent                                     "smart indenting for additional languages
   set expandtab                                       "spaces instead of tabs
@@ -161,41 +173,41 @@
   let &tabstop=s:settings.default_indent              "number of spaces per tab for display
   let &softtabstop=s:settings.default_indent          "number of spaces per tab in insert mode
   let &shiftwidth=s:settings.default_indent           "number of spaces when indenting
-  set list                                            "highlight whitespace
-  set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
-  set shiftround
-  set linebreak
-  set showbreak=↪\ 
-
-  set scrolloff=1                                     "always show content after scroll
-  set scrolljump=5                                    "minimum number of lines to scroll
-  set display+=lastline
+"  set list                                            "highlight whitespace
+"  set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
+"  set shiftround
+"  set linebreak
+"  set showbreak=↪\ 
+"
+"  set scrolloff=1                                     "always show content after scroll
+"  set scrolljump=5                                    "minimum number of lines to scroll
+"  set display+=lastline
   set wildmenu                                        "show list for autocomplete
   set wildmode=list:longest:full                      "priority for tab completion
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
-
+"
   set splitbelow
   set splitright
-
-  " disable sounds
+"
+"  " disable sounds
   set noerrorbells
   set novisualbell
-  set t_vb=
-
-  " searching
+"  set t_vb=
+"
+"  " searching
   set hlsearch                                        "highlight searches
   set incsearch                                       "incremental searching
   set ignorecase                                      "ignore case for searching
   set smartcase                                       "do case-sensitive if there's a capital letter
-  if executable('ack')
-    set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-    set grepformat=%f:%l:%c:%m
-  endif
-  if executable('ag')
-    set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
-    set grepformat=%f:%l:%c:%m
-  endif
-
+"  if executable('ack')
+"    set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
+"    set grepformat=%f:%l:%c:%m
+"  endif
+"  if executable('ag')
+"    set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+"    set grepformat=%f:%l:%c:%m
+"  endif
+"
   " vim file/folder management {{{
     " persistent undo
     if exists('+undofile')
@@ -217,76 +229,77 @@
     call EnsureExists(&directory)
   "}}}
 
-  let mapleader = ","
-  let g:mapleader = ","
+"  let mapleader = "\\"
+"  let g:mapleader = "\\"
 "}}}
 
-" ui configuration {{{
+
+"" ui configuration {{{
   set showmatch                                       "automatically highlight matching braces/brackets/etc.
   set matchtime=2                                     "tens of a second to show matching parentheses
-  set laststatus=2
+"  set laststatus=2
   set number
-  set lazyredraw
-  set noshowmode
+"  set lazyredraw
+"  set noshowmode
   set foldenable                                      "enable folds by default
   set foldmethod=syntax                               "fold via syntax of files
   set foldlevelstart=99                               "open all folds by default
-  let g:xml_syntax_folding=1                          "enable xml folding
-
-  set cursorline
-  autocmd WinLeave * setlocal nocursorline
-  autocmd WinEnter * setlocal cursorline
-  let &colorcolumn=s:settings.max_column
-  let &textwidth=s:settings.max_column - 2
-  if s:settings.enable_cursorcolumn
-    set cursorcolumn
-    autocmd WinLeave * setlocal nocursorcolumn
-    autocmd WinEnter * setlocal cursorcolumn
-  endif
-
-  if has('conceal')
-    set conceallevel=1
-    set listchars+=conceal:Δ
-  endif
-
-  if has('gui_running')
-    " open maximized
-    set lines=999 columns=9999
-    if s:is_windows
-      autocmd GUIEnter * simalt ~x
-    endif
-
-    set guioptions+=t                                 "tear off menu items
-    set guioptions-=T                                 "toolbar icons
-
-    if s:is_macvim
-      set gfn=Ubuntu_Mono:h14
-      set transparency=2
-    endif
-
-    if s:is_windows
-      set gfn=Ubuntu_Mono:h10
-    endif
-
-    if has('gui_gtk')
-      set gfn=Ubuntu\ Mono\ 11
-    endif
-  else
-    set t_Co=256
-
-    if $TERM_PROGRAM == 'iTerm.app'
-      " different cursors for insert vs normal mode
-      if exists('$TMUX')
-        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-      else
-        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-      endif
-    endif
-  endif
-"}}}
-
+"  let g:xml_syntax_folding=1                          "enable xml folding
+"
+"  set cursorline
+"  autocmd WinLeave * setlocal nocursorline
+"  autocmd WinEnter * setlocal cursorline
+"  let &colorcolumn=s:settings.max_column
+"  let &textwidth=s:settings.max_column - 2
+"  if s:settings.enable_cursorcolumn
+"    set cursorcolumn
+"    autocmd WinLeave * setlocal nocursorcolumn
+"    autocmd WinEnter * setlocal cursorcolumn
+"  endif
+"
+"  if has('conceal')
+"    set conceallevel=1
+"    set listchars+=conceal:Δ
+"  endif
+"
+"  if has('gui_running')
+"    " open maximized
+"    set lines=999 columns=9999
+"    if s:is_windows
+"      autocmd GUIEnter * simalt ~x
+"    endif
+"
+"    set guioptions+=t                                 "tear off menu items
+"    set guioptions-=T                                 "toolbar icons
+"
+"    if s:is_macvim
+"      set gfn=Ubuntu_Mono:h14
+"      set transparency=2
+"    endif
+"
+"    if s:is_windows
+"      set gfn=Ubuntu_Mono:h10
+"    endif
+"
+"    if has('gui_gtk')
+"      set gfn=Ubuntu\ Mono\ 11
+"    endif
+"  else
+"    set t_Co=256
+"
+"    if $TERM_PROGRAM == 'iTerm.app'
+"      " different cursors for insert vs normal mode
+"      if exists('$TMUX')
+"        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"      else
+"        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"      endif
+"    endif
+"  endif
+""}}}
+"
 " plugin/mapping configuration {{{
   if count(s:settings.plugin_groups, 'core') "{{{
     NeoBundle 'matchit.zip'
@@ -341,17 +354,17 @@
     NeoBundle 'tpope/vim-rails'
     NeoBundle 'tpope/vim-bundler'
   endif "}}}
-  if count(s:settings.plugin_groups, 'python') "{{{
-    NeoBundleLazy 'klen/python-mode', {'autoload':{'filetypes':['python']}} "{{{
-      let g:pymode_rope=0
-    "}}}
-    NeoBundleLazy 'davidhalter/jedi-vim', {'autoload':{'filetypes':['python']}} "{{{
-      let g:jedi#popup_on_dot=0
-    "}}}
-  endif "}}}
-  if count(s:settings.plugin_groups, 'go') "{{{
-    NeoBundleLazy 'jnwhiteh/vim-golang', {'autoload':{'filetypes':['go']}}
-  endif "}}}
+ if count(s:settings.plugin_groups, 'python') "{{{
+   NeoBundleLazy 'klen/python-mode', {'autoload':{'filetypes':['python']}} "{{{
+     let g:pymode_rope=0
+   "}}}
+   NeoBundleLazy 'davidhalter/jedi-vim', {'autoload':{'filetypes':['python']}} "{{{
+     let g:jedi#popup_on_dot=0
+   "}}}
+ endif "}}}
+ if count(s:settings.plugin_groups, 'go') "{{{
+   NeoBundleLazy 'jnwhiteh/vim-golang', {'autoload':{'filetypes':['go']}}
+ endif "}}}
   if count(s:settings.plugin_groups, 'scm') "{{{
     " NeoBundle 'sjl/splice.vim'
     NeoBundle 'mhinz/vim-signify' "{{{
@@ -667,121 +680,121 @@
   nnoremap <leader>nbu :Unite neobundle/update -vertical -no-start-insert<cr>
 "}}}
 
-" mappings {{{
-  " formatting shortcuts
-  nmap <leader>fef :call Preserve("normal gg=G")<CR>
-  nmap <leader>f$ :call StripTrailingWhitespace()<CR>
-  vmap <leader>s :sort<cr>
-
-  " toggle paste
-  map <F6> :set invpaste<CR>:set paste?<CR>
-
-  " remap arrow keys
-  nnoremap <down> :bprev<CR>
-  nnoremap <up> :bnext<CR>
-  nnoremap <left> :tabnext<CR>
-  nnoremap <right> :tabprev<CR>
-
-  " smash escape
-  inoremap jk <esc>
-  inoremap kj <esc>
-
-  " change cursor position in insert mode
-  inoremap <C-h> <left>
-  inoremap <C-l> <right>
-
-  if mapcheck('<space>/') == ''
-    nnoremap <space>/ :vimgrep //gj **/*<left><left><left><left><left><left><left><left>
-  endif
-
-  " sane regex {{{
-    nnoremap / /\v
-    vnoremap / /\v
-    nnoremap ? ?\v
-    vnoremap ? ?\v
-    cnoremap s/ s/\v
-  "}}}
-
-  " folds {{{
-    nnoremap zr zr:echo &foldlevel<cr>
-    nnoremap zm zm:echo &foldlevel<cr>
-    nnoremap zR zR:echo &foldlevel<cr>
-    nnoremap zM zM:echo &foldlevel<cr>
-  " }}}
-
-  " screen line scroll
-  nnoremap <silent> j gj
-  nnoremap <silent> k gk
-
-  " auto center {{{
-    nnoremap <silent> n nzz
-    nnoremap <silent> N Nzz
-    nnoremap <silent> * *zz
-    nnoremap <silent> # #zz
-    nnoremap <silent> g* g*zz
-    nnoremap <silent> g# g#zz
-    nnoremap <silent> <C-o> <C-o>zz
-    nnoremap <silent> <C-i> <C-i>zz
-  "}}}
-
-  " reselect visual block after indent
-  vnoremap < <gv
-  vnoremap > >gv
-
-  " reselect last paste
-  nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-
-  " find current word in quickfix
-  nnoremap <leader>fw :execute "vimgrep ".expand("<cword>")." %"<cr>:copen<cr>
-  " find last search in quickfix
-  nnoremap <leader>ff :execute 'vimgrep /'.@/.'/g %'<cr>:copen<cr>
-
-  " shortcuts for windows {{{
-    nnoremap <leader>v <C-w>v<C-w>l
-    nnoremap <leader>s <C-w>s
-    nnoremap <leader>vsa :vert sba<cr>
-    nnoremap <C-h> <C-w>h
-    nnoremap <C-j> <C-w>j
-    nnoremap <C-k> <C-w>k
-    nnoremap <C-l> <C-w>l
-  "}}}
-
-  " tab shortcuts
+"" mappings {{{
+"  " formatting shortcuts
+"  nmap <leader>fef :call Preserve("normal gg=G")<CR>
+"  nmap <leader>f$ :call StripTrailingWhitespace()<CR>
+"  vmap <leader>s :sort<cr>
+"
+"  " toggle paste
+"  map <F6> :set invpaste<CR>:set paste?<CR>
+"
+"  " remap arrow keys
+"  nnoremap <down> :bprev<CR>
+"  nnoremap <up> :bnext<CR>
+"  nnoremap <left> :tabnext<CR>
+"  nnoremap <right> :tabprev<CR>
+"
+"  " smash escape
+"  inoremap jk <esc>
+"  inoremap kj <esc>
+"
+"  " change cursor position in insert mode
+"  inoremap <C-h> <left>
+"  inoremap <C-l> <right>
+"
+"  if mapcheck('<space>/') == ''
+"    nnoremap <space>/ :vimgrep //gj **/*<left><left><left><left><left><left><left><left>
+"  endif
+"
+"  " sane regex {{{
+"    nnoremap / /\v
+"    vnoremap / /\v
+"    nnoremap ? ?\v
+"    vnoremap ? ?\v
+"    cnoremap s/ s/\v
+"  "}}}
+"
+"  " folds {{{
+"    nnoremap zr zr:echo &foldlevel<cr>
+"    nnoremap zm zm:echo &foldlevel<cr>
+"    nnoremap zR zR:echo &foldlevel<cr>
+"    nnoremap zM zM:echo &foldlevel<cr>
+"  " }}}
+"
+"  " screen line scroll
+"  nnoremap <silent> j gj
+"  nnoremap <silent> k gk
+"
+"  " auto center {{{
+"    nnoremap <silent> n nzz
+"    nnoremap <silent> N Nzz
+"    nnoremap <silent> * *zz
+"    nnoremap <silent> # #zz
+"    nnoremap <silent> g* g*zz
+"    nnoremap <silent> g# g#zz
+"    nnoremap <silent> <C-o> <C-o>zz
+"    nnoremap <silent> <C-i> <C-i>zz
+"  "}}}
+"
+"  " reselect visual block after indent
+"  vnoremap < <gv
+"  vnoremap > >gv
+"
+"  " reselect last paste
+"  nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+"
+"  " find current word in quickfix
+"  nnoremap <leader>fw :execute "vimgrep ".expand("<cword>")." %"<cr>:copen<cr>
+"  " find last search in quickfix
+"  nnoremap <leader>ff :execute 'vimgrep /'.@/.'/g %'<cr>:copen<cr>
+"
+"  " shortcuts for windows {{{
+"    nnoremap <leader>v <C-w>v<C-w>l
+"    nnoremap <leader>s <C-w>s
+"    nnoremap <leader>vsa :vert sba<cr>
+"    nnoremap <C-h> <C-w>h
+"    nnoremap <C-j> <C-w>j
+"    nnoremap <C-k> <C-w>k
+"    nnoremap <C-l> <C-w>l
+"  "}}}
+"
+"  " tab shortcuts
   map <leader>tn :tabnew<CR>
   map <leader>tc :tabclose<CR>
-
-  " make Y consistent with C and D. See :help Y.
-  nnoremap Y y$
-
-  " hide annoying quit message
-  nnoremap <C-c> <C-c>:echo<cr>
-
-  " window killer
-  nnoremap <silent> Q :call CloseWindowOrKillBuffer()<cr>
-
-  " quick buffer open
-  nnoremap gb :ls<cr>:e #
-
-  if neobundle#is_sourced('vim-dispatch')
-    nnoremap <leader>tag :Dispatch ctags -R<cr>
-  endif
-
-  " general
-  nmap <leader>l :set list! list?<cr>
-  noremap <cr> :set hlsearch! hlsearch?<cr>
-
-  map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-        \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-        \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-  " helpers for profiling {{{
-    nnoremap <silent> <leader>DD :exe ":profile start profile.log"<cr>:exe ":profile func *"<cr>:exe ":profile file *"<cr>
-    nnoremap <silent> <leader>DP :exe ":profile pause"<cr>
-    nnoremap <silent> <leader>DC :exe ":profile continue"<cr>
-    nnoremap <silent> <leader>DQ :exe ":profile pause"<cr>:noautocmd qall!<cr>
-  "}}}
-"}}}
-
+"
+"  " make Y consistent with C and D. See :help Y.
+"  nnoremap Y y$
+"
+"  " hide annoying quit message
+"  nnoremap <C-c> <C-c>:echo<cr>
+"
+"  " window killer
+"  nnoremap <silent> Q :call CloseWindowOrKillBuffer()<cr>
+"
+"  " quick buffer open
+"  nnoremap gb :ls<cr>:e #
+"
+"  if neobundle#is_sourced('vim-dispatch')
+"    nnoremap <leader>tag :Dispatch ctags -R<cr>
+"  endif
+"
+"  " general
+"  nmap <leader>l :set list! list?<cr>
+"  noremap <cr> :set hlsearch! hlsearch?<cr>
+"
+"  map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+"        \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+"        \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+"
+"  " helpers for profiling {{{
+"    nnoremap <silent> <leader>DD :exe ":profile start profile.log"<cr>:exe ":profile func *"<cr>:exe ":profile file *"<cr>
+"    nnoremap <silent> <leader>DP :exe ":profile pause"<cr>
+"    nnoremap <silent> <leader>DC :exe ":profile continue"<cr>
+"    nnoremap <silent> <leader>DQ :exe ":profile pause"<cr>:noautocmd qall!<cr>
+"  "}}}
+""}}}
+"
 " autocmd {{{
   " go back to previous position of cursor if any
   autocmd BufReadPost *
@@ -796,11 +809,11 @@
   autocmd FileType markdown setlocal nolist
 "}}}
 
-" vundle rtp load sequence requires the filetypes to be loaded after all bundles are loaded
+"" vundle rtp load sequence requires the filetypes to be loaded after all bundles are loaded
 filetype off
 filetype plugin indent on
 syntax enable
-
+"
 " color schemes {{{
   NeoBundle 'altercation/vim-colors-solarized'
   NeoBundle 'nanotech/jellybeans.vim'
@@ -816,9 +829,9 @@ syntax enable
   exec 'colorscheme '.s:settings.colorscheme
 "}}}
 
-if filereadable(expand("~/.vimrc.local"))
-  echom "Sourcing ~/.vimrc.local is deprecated.  Please consult the README on how to create a shim."
-  source ~/.vimrc.local
-endif
-
+"if filereadable(expand("~/.vimrc.local"))
+"  echom "Sourcing ~/.vimrc.local is deprecated.  Please consult the README on how to create a shim."
+"  source ~/.vimrc.local
+"endif
+"
 NeoBundleCheck
